@@ -2,7 +2,7 @@
 
 /**
  * handle_error - handle error message
- * @strg: error massage displayed
+ * @strg: error massage displaye
  *
  * Return: 1
  */
@@ -14,7 +14,7 @@ void handle_error(char *strg[])
 }
 
 /**
- * handle_eof_or_error - this function handles NULL errors
+ * handle_eof_or_error - this function handle NULL errors
  */
 
 void handle_eof_or_error(void)
@@ -23,7 +23,7 @@ void handle_eof_or_error(void)
 	{
 		char *cmd;
 
-		printf("\n");   /* checks if the end of file (EOF)*/
+		printf("\n");   /* check if the end of file (EOF)*/
 		free(cmd);
 		exit(EXIT_FAILURE);
 	}
@@ -69,7 +69,7 @@ int main(void)
 
 		if (kid_pid == -1)
 		{
-			perror("fork failed");	/* If child process fails*/
+			perror("fork failed");	/* If child process fail*/
 			exit(1);
 		}
 		else if (kid_pid == 0)
