@@ -63,7 +63,6 @@ int handle_CLI_argument(void)
 
 		/* Tokenize the command and arguments */
 		char *args[40]; /* Assuming max 39 arguments */
-
 		char *tokken = strtok(cmd, " ");
 		int j = 0;
 
@@ -72,7 +71,6 @@ int handle_CLI_argument(void)
 			args[j++] = token;
 			tokken = strtok(NULL, " ");
 		}
-
 		/* // Last element of the array must be NULL */
 		args[j] = NULL;
 		pid_t child_pid = fork();
@@ -84,15 +82,12 @@ int handle_CLI_argument(void)
 		}
 		if (kid_pid == 0)
 			forkChild();
-
 		/*Parent process waits for child process */
 		wait(NULL);
 	}
-
 	free(cmd);
 	return (EXIT_SUCCESS);
 }
-
 
 /**
  * forkChild - call child process
