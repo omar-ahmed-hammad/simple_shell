@@ -1,15 +1,14 @@
-#ifndef _SHELL_H_
-#define _SHELL_H_
+#ifndef SHELL_H
+#define SHELL_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <dirent.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 
-
-/* buffers read/write */
 #define BUFFER_SIZE 1024
 int opt_chars_read(void);
 int elseif_op(void);
