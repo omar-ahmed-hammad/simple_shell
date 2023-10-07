@@ -32,7 +32,7 @@ Alias(*alias_list = NULL);
 
 char *get_input(void)
 {
-	static char buffer[BUFFSIZE];
+	static char [BUFFSIZE];
 	ssize_t position = 0;
 	ssize_t bytes_read = 0;
 
