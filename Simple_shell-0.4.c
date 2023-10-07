@@ -60,6 +60,21 @@ void handle_eof_or_error(void)
 }
 
 /**
+ * handleKid_pid - handle conditional statement
+ * for to fork() kid_child
+ * @cmd: user inputed command
+ *
+ * Return: kid_pid on success.
+ */
+
+void handleKid_pid(const char *cmd)
+{
+		execve(cmd, (char *const[]){(char *const)cmd, NULL}, NULL);
+		perror("execve");
+		exit(EXIT_FAILURE);
+}
+
+/**
  * main - the entry of program
  *
  * Return: 0.
@@ -78,9 +93,9 @@ int main(void)
 
 		if (chars_read == -1)
 			handle_eof_or_error();
-		if (cmd[chars_read - 1] == '\n')	/* Remove newline char from cmd */
+		if (cmd[chars_read - 1] == '\n')
 			cmd[chars_read - 1] = '\0';
-		if (strcmp(cmd, "exit") == 0)	/* Handle the built-in exit command */
+		if (strcmp(cmd, "exit") == 0)
 		{
 			free(cmd);
 			exit(EXIT_SUCCESS);
@@ -101,25 +116,10 @@ int main(void)
 		}
 		if (kid_pid == 0)
 		handleKid_pid(cmd);
-		else /* Parent process */
-			wait(NULL); /* Wait for the child process to finish */
+		else
+			wait(NULL);
 		free(full_path);
 	}
 	free(cmd);
 	return (0);
-}
-
-/**
- * handleKid_pid - handle conditional statement
- * for to fork() kid_child
- * @cmd: user inputed command
- *
- * Return: kid_pid on success.
- */
-
-void handleKid_pid(const char *cmd)
-{
-		execve(cmd, (char *const[]){(char *const)cmd, NULL}, NULL);
-		perror("execve");
-		exit(EXIT_FAILURE);
 }
