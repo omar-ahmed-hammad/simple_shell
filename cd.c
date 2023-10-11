@@ -3,7 +3,7 @@
 /**
  * get_input - get line minus the newline
  *
- * Return: bytes read
+ * Return: bytes readd
  */
 
 char *get_input(void)
