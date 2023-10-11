@@ -3,7 +3,7 @@
 /**
  * runProgram - runs program
  * @pmt: command entered
- * @args: command argument
+ * @args: command arguments
  * @envp: env variables
  * @w_len: characters written
  * @pgNm: program name
