@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * get_input - get line minus the newline
+ * get_input -> get line minus the newline
  *
  * Return: bytes read
  */
