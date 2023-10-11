@@ -12,7 +12,7 @@
  * struct Alias - parameter structurie
  * @name: alias name
  * @value: alias value
- * @next: next alias
+ * @next: next alias -
  */
 
 typedef struct Alias
