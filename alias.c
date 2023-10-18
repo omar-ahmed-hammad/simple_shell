@@ -1,160 +1,107 @@
 #include "shell.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <errno.h>
 
-#define BUFFER_SIZE 1024
 /**
+<<<<<<< HEAD
  * struct Alias - parameter structurie
  * @name: alias name
  * @value: alias value
  * @next: next alias ->_
+=======
+ * _myexit - exit the shell
+ * @info: Structure containing potential arguments. Used to maintain
+ * constant function prototype.
+ * Return: exit with a given exit status
+ * (0) if info.argv[0] != "exit"
+>>>>>>> alx project
  */
 
-typedef struct Alias
+int _myexit(info_t *info)
 {
-	char *name;
-	char *value;
-	struct Alias *next;
-} Alias;
+	int exitcheck;
 
-Alias(*alias_list = NULL);
-
-/**
- * get_input - get line minus the newline
- *
- * Return: bytes read
- */
-
-char *get_input(void)
-{
-	static char [BUFFSIZE];
-	ssize_t position = 0;
-	ssize_t bytes_read = 0;
-
-	if (position >= bytes_read)
+	if (info->argv[1]) /* If there is an exit arguement */
 	{
-		bytes_read = read(STDIN_FILENO, buffer, BUFFSIZE);
-		if (bytes_read <= 0)
-			return (NULL);
-		position = 0;
-	}
-
-	while (position < bytes_read)
-	{
-		if (buffer[position] == '\n')
+		exitcheck = _erratoi(info->argv[1]);
+		if (exitcheck == -1)
 		{
-			buffer[position] = '\0';
-			char *input = strdup(buffer);
-
-			position++;
-			return (input);
+			info->status = 2;
+			print_error(info, "Illegal number: ");
+			_eputs(info->argv[1]);
+			_eputchar('\n');
+			return (1);
 		}
-		position++;
+		info->err_num = _erratoi(info->argv[1]);
+		return (-2);
 	}
-
-	return (NULL);
-}
-
-Alias *find_alias(char *name)
-{
-	Alias *current = alias_list;
-
-	while (current != NULL)
-	{
-		if (strcmp(current->name, name) == 0)
-			return (current);
-		current = current->next;
-	}
-	return (NULL);
+	info->err_num = -1;
+	return (-2);
 }
 
 /**
- * print_aliases - print alias string
+ * _mycd - change the current directory of the process
+ * @info: Structure containing potential arguments. Used to maintain
+ * constant function prototype.
+ * Return: Always 0
  */
 
-void print_aliases(void)
+int _mycd(info_t *info)
 {
-	Alias *current = alias_list;
+	char *s, *dir, buffer[1024];
+	int chdir_ret;
 
-	while (current != NULL)
+	s = getcwd(buffer, 1024);
+	if (!s)
+		_puts("TODO: >>getcwd failure emsg here<<\n");
+	if (!info->argv[1])
 	{
-		printf("%s='%s'\n", current->name, current->value);
-		current = current->next;
+		dir = _getenv(info, "HOME=");
+		if (!dir)
+			chdir_ret = /* TODO: what should this be? */
+				chdir((dir = _getenv(info, "PWD=")) ? dir : "/");
+		else
+			chdir_ret = chdir(dir);
 	}
-}
-/**
- * add_alias - add alias string
- * @name: alias name
- * @value: alias value
- */
-void add_alias(char *name, char *value)
-{
-	Alias *alias = find_alias(name);
-
-	if (alias != NULL)
+	else if (_strcmp(info->argv[1], "-") == 0)
 	{
-		free(alias->value);
-		alias->value = strdup(value);
+		if (!_getenv(info, "OLDPWD="))
+		{
+			_puts(s);
+			_putchar('\n');
+			return (1);
+		}
+		_puts(_getenv(info, "OLDPWD=")), _putchar('\n');
+		chdir_ret = /* TODO: what should this be? */
+			chdir((dir = _getenv(info, "OLDPWD=")) ? dir : "/");
+	}
+	else
+		chdir_ret = chdir(info->argv[1]);
+	if (chdir_ret == -1)
+	{
+		print_error(info, "can't cd to ");
+		_eputs(info->argv[1]), _eputchar('\n');
 	}
 	else
 	{
-		Alias *new_alias = (Alias *)malloc(sizeof(Alias));
-
-		new_alias->name = strdup(name);
-		new_alias->value = strdup(value);
-		new_alias->next = alias_list;
-		alias_list = new_alias;
+		_setenv(info, "OLDPWD", _getenv(info, "PWD="));
+		_setenv(info, "PWD", getcwd(buffer, 1024));
 	}
+	return (0);
 }
+
 /**
- * main - Handle alias command
- *
- * Return: 0 for success, non-zero for failure
+ * _myhelp - change the current directory of the process
+ * @info: Structure containing potential arguments. Used to maintain
+ * constant function prototype.
+ * Return: Always 0
  */
 
-int main(void)
+int _myhelp(info_t *info)
 {
-	char *input, *token;
-	char *delimiters = ";&| ";
-	int prev_result = 0;
+	char **arg_array;
 
-	while (1)
-	{
-		printf("$ ");
-		input = get_input();
-
-		if (input == NULL)
-		{
-			printf("\n");
-			exit(EXIT_SUCCESS);
-		}
-
-		token = strtok(input, delimiters);
-
-		while (token != NULL)
-		{
-			if (strcmp(token, "alias") == 0)
-			{
-			}
-			else
-			{
-				int result = execute_command(token);
-
-				if (strcmp(token, "&&") == 0)
-					prev_result = (result == 0) ? 1 : 0;
-				else if (strcmp(token, "||") == 0)
-					prev_result = (result == 0) ? 0 : 1;
-				else
-					prev_result = result;
-			}
-			token = strtok(NULL, delimiters);
-		}
-		free(input);
-	}
+	arg_array = info->argv;
+	_puts("help call works. Function not yet implemented \n");
+	if (0)
+		_puts(*arg_array);
 	return (0);
 }
