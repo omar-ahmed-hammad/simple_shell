@@ -1,18 +1,16 @@
 #include "shell.h"
 
 /**
-<<<<<<< HEAD
  * struct Alias - parameter structurie
  * @name: alias name
  * @value: alias value
- * @next: next alias ->_
-=======
+ * @next: next alias
  * _myexit - exit the shell
  * @info: Structure containing potential arguments. Used to maintain
  * constant function prototype.
+ *
  * Return: exit with a given exit status
  * (0) if info.argv[0] != "exit"
->>>>>>> alx project
  */
 
 int _myexit(info_t *info)
